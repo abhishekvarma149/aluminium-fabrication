@@ -81,13 +81,16 @@ export default function HeroAnimation() {
       <video
         ref={videoRef}
         className="hero-canvas"
-        src="/window.mp4"
         muted
         playsInline
+        autoPlay
+        webkit-playsinline="true"
         preload="auto"
         aria-hidden="true"
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
+      >
+        <source src="/window.mp4" type="video/mp4" />
+      </video>
 
       <div ref={overlayRef} className="hero-overlay">
         <p className="hero-eyebrow">Redefining Luxury</p>

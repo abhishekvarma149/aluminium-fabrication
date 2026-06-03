@@ -11,6 +11,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const scrolled = useNavbarScroll(80);
   const [theme, setTheme] = useState('dark');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -25,6 +26,10 @@ export default function Navbar() {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header role="banner">
       <nav
@@ -36,7 +41,7 @@ export default function Navbar() {
           Alumi<span>nium</span>
         </a>
 
-        {/* Links */}
+        {/* Desktop Links */}
         <ul className="navbar-links" role="list">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
@@ -45,21 +50,12 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Theme Toggle & CTA */}
-        <div className="navbar-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        {/* Desktop Actions */}
+        <div className="navbar-actions">
           <button
             onClick={toggleTheme}
             className="theme-toggle-btn"
             aria-label="Toggle dark/light mode"
-            style={{
-              background: 'none',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              padding: '0.5rem 1rem',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontSize: '0.875rem'
-            }}
           >
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
           </button>
@@ -72,7 +68,38 @@ export default function Navbar() {
             Book Consultation
           </button>
         </div>
+
+        {/* Mobile Menu Toggle Button */}
+        <button
+          className="mobile-menu-toggle"
+          onClick={toggleMenu}
+          aria-expanded={isMenuOpen}
+          aria-label="Toggle mobile menu"
+        >
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
+        <ul className="mobile-menu-links">
+          {NAV_LINKS.map((link) => (
+            <li key={link.href}>
+              <a href={link.href} onClick={toggleMenu}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+        <div className="mobile-menu-actions">
+          <button onClick={toggleTheme} className="theme-toggle-btn">
+             {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          </button>
+          <button className="navbar-cta" onClick={toggleMenu}>
+            Book Consultation
+          </button>
+        </div>
+      </div>
     </header>
   );
 }
