@@ -90,16 +90,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-logo {
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text);
   text-decoration: none;
 }
 
+.navbar-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
 .navbar-logo span {
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .navbar-links {

@@ -37,8 +37,9 @@ export default function Navbar() {
         aria-label="Main navigation"
       >
         {/* Logo */}
-        <a href="/" className="navbar-logo" aria-label="Aluminium — Home">
-          Alumi<span>nium</span>
+        <a href="/" className="navbar-logo" aria-label="Keerthi Aluminium Fabrication — Home">
+          <img src="/logo.png" alt="Keerthi Aluminium Fabrication Logo" className="navbar-logo-img" />
+          <span>Keerthi Aluminium Fabrication</span>
         </a>
 
         {/* Desktop Links */}
