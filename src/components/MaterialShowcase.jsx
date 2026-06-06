@@ -10,8 +10,17 @@ const MATERIALS = {
     description: 'uPVC stands for unplasticized Polyvinyl Chloride—a durable, low-maintenance material commonly used for modern window and door frames.',
     products: [
       { id: 'u1', name: 'uPVC Fixed Window', image: '/windows/upvc_fixed.png', link: '#' },
-      { id: 'u2', name: 'uPVC Glass To Glass Joint Window', image: '/windows/upvc_glass_joint.png', link: '#' },
-      { id: 'u3', name: 'Tilt and Turn Window', image: '/windows/upvc_tilt_turn.png', link: '#' },
+      { id: 'u2', name: 'uPVC Sliding Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u3', name: 'uPVC Casement Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u4', name: 'uPVC Tilt & Turn Window', image: '/windows/upvc_tilt_turn.png', link: '#' },
+      { id: 'u5', name: 'uPVC French Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u6', name: 'uPVC Bay Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u7', name: 'uPVC Corner Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u8', name: 'uPVC Picture Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u9', name: 'uPVC Awning Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u10', name: 'uPVC Bi-Fold Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u11', name: 'uPVC Lift & Slide Window', image: '/windows/upvc_fixed.png', link: '#' },
+      { id: 'u12', name: 'uPVC Glass-to-Glass Joint Window', image: '/windows/upvc_glass_joint.png', link: '#' },
     ]
   },
   aluminium: {
@@ -61,13 +70,28 @@ export default function MaterialShowcase() {
     const grid = gridRef.current;
     if (!grid) return;
 
+    // Reset scroll position when switching tabs
+    grid.scrollTo({ left: 0, behavior: 'smooth' });
+
     const cards = grid.querySelectorAll('.ms-card-wrapper');
     gsap.fromTo(
       cards,
       { opacity: 0, y: 30, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 }
+      { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', stagger: 0.05 }
     );
   }, [activeMaterial]);
+
+  const slideNext = () => {
+    if (gridRef.current) {
+      gridRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+    }
+  };
+
+  const slidePrev = () => {
+    if (gridRef.current) {
+      gridRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+    }
+  };
 
   const currentData = MATERIALS[activeMaterial];
 
@@ -92,12 +116,22 @@ export default function MaterialShowcase() {
             </button>
           </div>
           
-          <p className="ms-description">
-            {currentData.description}
-          </p>
+          <div className="ms-header-bottom">
+            <p className="ms-description">
+              {currentData.description}
+            </p>
+            <div className="ms-slider-controls">
+              <button className="slider-btn prev-btn" onClick={slidePrev} aria-label="Previous items">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button className="slider-btn next-btn" onClick={slideNext} aria-label="Next items">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Product Grid */}
+        {/* Product Grid / Slider */}
         <div ref={gridRef} className="ms-grid ms-fade-up">
           {currentData.products.map((product) => (
             <div key={product.id} className="ms-card-wrapper">

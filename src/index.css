@@ -1124,10 +1124,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .ms-header {
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
 }
 
@@ -1174,22 +1172,65 @@ h1, h2, h3, h4, h5, h6 {
   width: 60%;
 }
 
+.ms-header-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 2rem;
+}
+
 .ms-description {
   color: var(--color-muted);
   font-size: 1rem;
   line-height: 1.6;
   max-width: 600px;
-  text-align: center;
+}
+
+.ms-slider-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.slider-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
 }
 
 .ms-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 2rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ms-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .ms-card-wrapper {
   perspective: 1000px;
+  flex: 0 0 calc(33.333% - 1.33rem);
+  min-width: 300px;
+  scroll-snap-align: start;
 }
 
 .ms-card {
@@ -1273,15 +1314,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 1024px) {
-  .ms-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .ms-card-wrapper {
+    flex: 0 0 calc(50% - 1rem);
   }
 }
 
 @media (max-width: 768px) {
-  .ms-grid {
-    grid-template-columns: 1fr;
+  .ms-header-bottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
+  
+  .ms-slider-controls {
+    align-self: flex-end;
+  }
+
+  .ms-card-wrapper {
+    flex: 0 0 100%;
+    min-width: 260px;
+  }
+
   .ms-toggle {
     gap: 2rem;
   }
