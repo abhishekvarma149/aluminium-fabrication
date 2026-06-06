@@ -47,44 +47,51 @@ export default function SpacesSection() {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      // Cool transition animation from Hero to SpacesSection
-      gsap.fromTo(
-        section,
-        { clipPath: 'inset(15% 10% 0% 10% round 40px 40px 0 0)' },
-        {
-          clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0 0)',
-          ease: 'none',
+      const mm = gsap.matchMedia();
+
+      // Fade-ins for all screens
+      mm.add("all", () => {
+        gsap.from('.spaces-main-title', {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top bottom',
-            end: 'top top',
-            scrub: 0.5,
-          }
-        }
-      );
-
-      gsap.from('.spaces-main-title', {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 70%',
-          once: true,
-        },
+            start: 'top 70%',
+            once: true,
+          },
+        });
+        gsap.from('.spaces-tabs-wrapper', {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          delay: 0.3,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 70%',
+            once: true,
+          },
+        });
       });
-      gsap.from('.spaces-tabs-wrapper', {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 70%',
-          once: true,
-        },
+
+      // Heavy clipPath animation only on desktop
+      mm.add("(min-width: 1024px)", () => {
+        gsap.fromTo(
+          section,
+          { clipPath: 'inset(15% 10% 0% 10% round 40px 40px 0 0)' },
+          {
+            clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0 0)',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: 0.5,
+            }
+          }
+        );
       });
     }, sectionRef);
 

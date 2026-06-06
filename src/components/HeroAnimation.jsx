@@ -44,29 +44,45 @@ export default function HeroAnimation() {
 
     // Use gsap.context() for clean React-compatible teardown
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: '+=3000',
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate(self) {
-          video.currentTime = Math.min(
-            Math.max(self.progress * duration, 0),
-            duration
-          );
-          overlay.style.opacity = String(
-            Math.max(0, 1 - self.progress / 0.3)
-          );
-          
-          // Animate the end text as the video finishes (progress 0.7 to 1.0)
-          const p = Math.max(0, (self.progress - 0.7) / 0.3);
-          endText.style.opacity = p;
-          endText.style.transform = `translate(-50%, -50%) scale(${1.2 - 0.2 * p})`;
-          endText.style.filter = `blur(${(1 - p) * 15}px)`;
-        },
+      const mm = gsap.matchMedia();
+
+      // Desktop: Scroll-driven scrubbing
+      mm.add("(min-width: 1024px)", () => {
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top top',
+          end: '+=3000',
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+          onUpdate(self) {
+            video.currentTime = Math.min(
+              Math.max(self.progress * duration, 0),
+              duration
+            );
+            overlay.style.opacity = String(
+              Math.max(0, 1 - self.progress / 0.3)
+            );
+            
+            // Animate the end text as the video finishes (progress 0.7 to 1.0)
+            const p = Math.max(0, (self.progress - 0.7) / 0.3);
+            endText.style.opacity = String(p);
+            endText.style.transform = `translate(-50%, -50%) scale(${1.2 - 0.2 * p})`;
+            endText.style.filter = `blur(${(1 - p) * 15}px)`;
+          },
+        });
       });
+
+      // Mobile/Tablet: Autoplay video without scroll scrubbing
+      mm.add("(max-width: 1023px)", () => {
+        video.loop = true;
+        video.play().catch(() => {});
+        
+        // Reset styles for mobile
+        overlay.style.opacity = "1";
+        endText.style.opacity = "0";
+      });
+
     }, sectionRef); // scope to sectionRef
 
     return () => ctx.revert(); // cleanly removes pin wrapper + kills ST

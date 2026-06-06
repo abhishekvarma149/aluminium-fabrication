@@ -36,17 +36,20 @@ export default function MaterialShowcase() {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('.ms-fade-up', {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
-          once: true,
-        },
+      const mm = gsap.matchMedia();
+      mm.add("all", () => {
+        gsap.from('.ms-fade-up', {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 75%',
+            once: true,
+          },
+        });
       });
     }, sectionRef);
 

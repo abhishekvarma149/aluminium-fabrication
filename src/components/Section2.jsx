@@ -19,48 +19,54 @@ export default function Section2() {
     if (!section || !image || !text) return;
 
     const ctx = gsap.context(() => {
-      /* Fade-up for text items */
-      gsap.from(text.querySelectorAll('.fade-up'), {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: text,
-          start: 'top 80%',
-          once: true,
-        },
-      });
+      const mm = gsap.matchMedia();
 
-      /* Slide in from right */
-      gsap.from(image.parentElement, {
-        xPercent: 5,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 85%',
-          once: true,
-        },
-      });
+      /* Fade-up and slide-in for all screen sizes */
+      mm.add("all", () => {
+        gsap.from(text.querySelectorAll('.fade-up'), {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: text,
+            start: 'top 80%',
+            once: true,
+          },
+        });
 
-      /* Parallax */
-      gsap.fromTo(
-        image,
-        { yPercent: -8 },
-        {
-          yPercent: 8,
-          ease: 'none',
+        /* Slide in from right */
+        gsap.from(image.parentElement, {
+          xPercent: 5,
+          opacity: 0,
+          duration: 1.2,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
+            start: 'top 85%',
+            once: true,
           },
-        }
-      );
+        });
+      });
+
+      /* Parallax - desktop only */
+      mm.add("(min-width: 1024px)", () => {
+        gsap.fromTo(
+          image,
+          { yPercent: -8 },
+          {
+            yPercent: 8,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+      });
     }, section);
 
     return () => ctx.revert();

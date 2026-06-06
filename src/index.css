@@ -870,6 +870,38 @@ h1, h2, h3, h4, h5, h6 {
     gap: 1rem;
     text-align: center;
   }
+
+  /* Improve touch targets for mobile */
+  button, 
+  .btn-primary, 
+  .btn-ghost, 
+  .navbar-cta, 
+  .hero-cta, 
+  .spaces-card-btn, 
+  .content-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .content-title {
+    font-size: 2.25rem;
+  }
+
+  .spaces-main-title {
+    font-size: 2.5rem;
+  }
+
+  .showcase-title {
+    font-size: 2.5rem;
+  }
 }
 
 /* ─── Animation utilities ────────────────────────────────────── */
